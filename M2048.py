@@ -78,6 +78,7 @@ class M2048(gym.Env):
         return new_tiles
 
     def step(self, action):
+        assert self.mask[action]
         info = self._get_info()
 
         if not self.silent_mode:
