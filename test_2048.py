@@ -11,7 +11,7 @@ from sb3_contrib.common.wrappers import ActionMasker
 # env = DummyVecEnv([lambda: env])
 model = MaskablePPO.load("./model/2048.pkl")
 
-for i in range(10):
+for i in range(100):
     env = M2048(4, silent_mode=False)
     state, _ = env.reset()
     done = False

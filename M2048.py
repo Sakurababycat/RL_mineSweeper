@@ -47,6 +47,7 @@ class M2048(gym.Env):
         self.generate_tile()
         self.generate_tile()
         self.gen_action_mask()
+        self.step_cnt = 0
         return self.get_obs(), self._get_info()
 
     def rotate_map(self, action, reverse=False):
@@ -97,8 +98,9 @@ class M2048(gym.Env):
 
         self.generate_tile()
         self.gen_action_mask()
+        self.step_cnt += 1
         if sum(self.mask) == 0:
-            return self.get_obs(), -500, True, False, info
+            return self.get_obs(), -100 / np.log(self.step_cnt), True, False, info
         else:
             return self.get_obs(), sum(step_rew) + 1, False, False, info
 
