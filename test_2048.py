@@ -9,7 +9,7 @@ from sb3_contrib.common.wrappers import ActionMasker
 
 # env = ActionMasker(env, MinesweeperEnv.get_action_mask)
 # env = DummyVecEnv([lambda: env])
-model = MaskablePPO.load("./model/2048.pkl")
+model = MaskablePPO.load("./model/2048_64.pkl")
 
 for i in range(100):
     env = M2048(4, silent_mode=False)

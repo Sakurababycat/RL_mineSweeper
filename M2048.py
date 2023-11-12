@@ -102,7 +102,13 @@ class M2048(gym.Env):
         if sum(self.mask) == 0:
             return self.get_obs(), -100 / np.log(self.step_cnt), True, False, info
         else:
-            return self.get_obs(), sum(step_rew) + 1, False, False, info
+            return (
+                self.get_obs(),
+                sum(step_rew) + np.log(self.step_cnt),
+                False,
+                False,
+                info,
+            )
 
     def drawGrid(self):
         for y in range(0, self.window_width, self.block_size):
