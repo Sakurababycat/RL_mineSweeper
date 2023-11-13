@@ -103,7 +103,7 @@ class M2048(gym.Env):
         else:
             return (
                 self.get_obs(),
-                sum(step_rew) + np.log(self.step_cnt),
+                sum(step_rew) * np.sqrt(np.log(self.step_cnt)),
                 False,
                 False,
                 info,

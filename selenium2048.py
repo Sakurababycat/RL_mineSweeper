@@ -48,6 +48,7 @@ class Selenium2048(gym.Env):
         res_btn = self.dr.find_element(by=By.CLASS_NAME, value="restart-button")
         res_btn.click()
         self.step_cnt = 0
+        self.mask = [1] * 4
         return self.get_obs(), self._get_info()
 
     def step(self, action):
@@ -66,26 +67,34 @@ class Selenium2048(gym.Env):
 
         new_rew = np.sort(self.get_obs())[::-1]
         step_rew = new_rew - ori_rew
-        step_rew[step_rew < 0] = 0
-
-        self.step_cnt += 1
 
         if self.retry_btn.is_displayed():
             return self.get_obs(), -100 / np.log(self.step_cnt), True, False, info
+        if sum(step_rew != 0) == 0:
+            self.mask[action] = 0
+            return self.get_obs(), 0, False, False, info
         else:
-            return (
-                self.get_obs(),
-                sum(step_rew) + np.log(self.step_cnt),
-                False,
-                False,
-                info,
-            )
+            self.mask = [1] * 4
+
+        self.step_cnt += 1
+        step_rew[step_rew < 0] = 0
+
+        return (
+            self.get_obs(),
+            sum(step_rew) + np.log(self.step_cnt),
+            False,
+            False,
+            info,
+        )
 
     def _get_info(self):
         return {"map": self.map}
 
     def close(self):
         self.dr.close()
+
+    def action_masks(self):
+        return self.mask
 
 
 if __name__ == "__main__":
