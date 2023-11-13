@@ -82,10 +82,6 @@ class M2048(gym.Env):
         assert self.mask[action]
         info = self._get_info()
 
-        if not self.silent_mode:
-            self.render()
-            # time.sleep(0.2)
-
         ori_rew = np.sort(self.get_obs())[::-1]
 
         rot_map = self.rotate_map(action)
@@ -98,6 +94,9 @@ class M2048(gym.Env):
 
         self.generate_tile()
         self.gen_action_mask()
+        if not self.silent_mode:
+            self.render()
+            # time.sleep(0.2)
         self.step_cnt += 1
         if sum(self.mask) == 0:
             return self.get_obs(), -100 / np.log(self.step_cnt), True, False, info
