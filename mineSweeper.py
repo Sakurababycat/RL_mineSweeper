@@ -57,7 +57,7 @@ class MinesweeperEnv(gym.Env):
         self.action_space = spaces.Discrete(height * width)
 
     def get_obs(self):
-        return self.state.transpose((1, 0)).flatten()
+        return self.state.flatten()
 
     def generate_mines(self):
         self.map = np.array([[False] * self.width for _ in range(self.height)])
@@ -149,7 +149,7 @@ class MinesweeperEnv(gym.Env):
             for x in range(0, self.window_height, self.block_size):
                 rect = pygame.Rect(x, y, self.block_size, self.block_size)
                 num = int(
-                    self.state[int(x / self.block_size), int(y / self.block_size)]
+                    self.state[int(y / self.block_size), int(x / self.block_size)]
                 )
                 if num == -1:
                     pygame.draw.rect(self.screen, (255, 255, 255), rect, 1)

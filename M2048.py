@@ -114,7 +114,7 @@ class M2048(gym.Env):
         for y in range(0, self.window_width, self.block_size):
             for x in range(0, self.window_height, self.block_size):
                 rect = pygame.Rect(x, y, self.block_size, self.block_size)
-                num = int(self.map[int(x / self.block_size), int(y / self.block_size)])
+                num = int(self.map[int(y / self.block_size), int(x / self.block_size)])
                 if num == 0:
                     pygame.draw.rect(self.screen, (0, 0, 0), rect, 1)
                 else:
@@ -159,7 +159,7 @@ class M2048(gym.Env):
 if __name__ == "__main__":
     import time
 
-    env = M2048(4, silent_mode=True)
+    env = M2048(4, silent_mode=False)
     env.reset()
 
     done = False
@@ -168,6 +168,7 @@ if __name__ == "__main__":
             pass
 
         obs, reward, done, _, info = env.step(action)
+        time.sleep(2)
         print(action)
         print(env.map)
 
