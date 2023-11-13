@@ -182,7 +182,7 @@ class MinesweeperEnv(gym.Env):
 
     def action_masks(self) -> np.ndarray[int]:
         state = self.get_obs().reshape(self.height, self.width)
-        pad = torch.constant_pad_nd(torch.from_numpy(state), (1, 1, 1, 1), -1)
+        pad = torch.constant_pad_nd(torch.from_numpy(state).int(), (1, 1, 1, 1), -1)
         mask = (
             torch.conv2d(pad.unsqueeze(0), torch.ones((1, 1, 3, 3), dtype=torch.int))
             != -9
